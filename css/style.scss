@@ -11,6 +11,9 @@
     margin: 0 auto;
 }
 
+body{
+    // background-color: red;
+}
 main{
     margin-top: 2em;
 }
@@ -80,7 +83,8 @@ main{
     #project-liste{
         .thumbnail{
             padding: 1em;
-            height: 400px;
+            height: 450px;
+            position: relative;
 
             img{
                 height: 130px!important;
@@ -90,6 +94,13 @@ main{
                 img{
                     height: 35px!important;
                 }
+            }
+
+            .url{
+                position: absolute;
+                width: 90%;
+                bottom: 2%;
+                left: 5%;
             }
         }
     }

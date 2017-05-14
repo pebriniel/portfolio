@@ -63,13 +63,20 @@ main #sociaux-liste ul li img {
 }
 main #project-liste .thumbnail {
   padding: 1em;
-  height: 400px;
+  height: 450px;
+  position: relative;
 }
 main #project-liste .thumbnail img {
   height: 130px !important;
 }
 main #project-liste .thumbnail .picto img {
   height: 35px !important;
+}
+main #project-liste .thumbnail .url {
+  position: absolute;
+  width: 90%;
+  bottom: 2%;
+  left: 5%;
 }
 main #skills-liste .thumbnail {
   padding: 1em;

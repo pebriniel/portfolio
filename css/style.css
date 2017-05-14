@@ -1,0 +1,83 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.carousel-control.right, .carousel-control.left {
+  background-image: none;
+}
+
+.carousel-inner > .item > img {
+  margin: 0 auto;
+}
+
+main {
+  margin-top: 2em;
+}
+
+h2 {
+  margin: 1em;
+  margin-top: 2em;
+}
+
+header ul {
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+}
+header ul li {
+  list-style: none;
+  display: inline-block;
+}
+header ul li a {
+  display: block;
+  padding: 1em;
+  color: #0099cc;
+  font-weight: bold;
+  text-decoration: none;
+}
+header ul li a:hover {
+  background-color: #0099cc;
+  color: white;
+  text-decoration: none;
+}
+header ul li a:active {
+  background-color: #0099cc;
+  color: white;
+  text-decoration: none;
+}
+
+main #sociaux-liste {
+  margin-top: 3vh;
+}
+main #sociaux-liste ul li {
+  list-style: none;
+  display: inline-block;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+main #sociaux-liste ul li img {
+  width: 45px;
+  border-radius: 50%;
+}
+main #project-liste .thumbnail {
+  padding: 1em;
+  height: 400px;
+}
+main #project-liste .thumbnail img {
+  height: 130px !important;
+}
+main #project-liste .thumbnail .picto img {
+  height: 35px !important;
+}
+main #skills-liste .thumbnail {
+  padding: 1em;
+  height: 100px;
+}
+main #skills-liste .thumbnail h6 {
+  text-align: center;
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=style.css.map */

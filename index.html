@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="//localhost:35729/livereload.js"></script>
+        <title>Sadadou::En construction</title>
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var domain = 'https://appapi.sadadou.fr/api/';
+                var api_project = 'project';
+                var api_skills = 'skills';
+                var api_social = 'medialsocial';
+                var projet = null;
+
+                function callAjax(target, callback){
+                    $.ajax({
+                        url: domain+''+target+'/',
+                        dataType: 'json',
+                        success: callback,
+                        error: function(){
+                            console.log('erreur '+ target);
+                        }
+                    });
+                }
+
+                callAjax(api_project, function(data){
+                    projet = data;
+                    var pt = $('.project-template').html();
+                    var div = '#project-liste';
+                    $(div).empty();
+
+                        for(var i = 0; i < data.length; i ++){
+                            var v = pt;
+                            $.each(data[i], function(index, value){
+                                v = v.replace("data_"+index, value);
+                            });
+                            var img = '';
+                            for(var u = 0; u < data[i]['technology'].length; u ++){
+                                img += '<img src="'+data[i]['technology'][u]['urllogo']+'" />'
+                            }
+                            v = v.replace('data_count', i);
+                            v = v.replace('data_list-techno', img);
+                            $(div).append(v);
+                        }
+                });
+                callAjax(api_skills, function(data){
+                    var div = '#skills-liste';
+                    var pt = $('.skills-template').html();
+                    $(div).empty();
+
+                    var t = ['lang', 'libs', 'fram'];
+                    $.each(t, function(i2, v2){
+                        for(var i = 0; i < data[v2].length; i ++){
+                            var v = pt;
+                                $.each(data[v2][i], function(index, value){
+                                    v = v.replace("data_"+index, value);
+                                });
+                            $(div).append(v);
+                        }
+                    });
+                });
+
+                callAjax(api_social, function(data){
+                    var div = '#social-liste';
+                    for(var i = 0; i < data.length; i ++){
+                        $(div).append('<li><a href="'+data[i]['value']+'" title="'+data[i]['name']+'" target="__blank"><img src="img/social/'+data[i]['tag']+'.png"></a></li>');
+                    }
+                });
+
+                $(document).on('click', '.btn-screenshot', function(){
+                    var id = $(this).data('id');
+                    var active = 'active';
+                    $(".carousel-inner").empty();
+                    $(".carousel-indicators").empty();
+
+                    for(var i = 0; i < projet[id]['screenshot'].length; i ++){
+                        $(".carousel-indicators").append('<li data-target="#myCarousel" data-slide-to="'+i+'" class="'+active+'""></li>');
+                        $(".carousel-inner").append('<div class="item '+active+'"><img src="'+projet[id]['screenshot'][i]['url']+'"/></div>');
+                        active = '';
+                    }
+                });
+
+                $('.js-scrollTo').on('click', function() { // Au clic sur un élément
+        			var page = $(this).attr('href'); // Page cible
+        			var speed = 750; // Durée de l'animation (en ms)
+        			$('html, body').animate( { scrollTop: $(page).offset().top }, speed ); // Go
+        			return false;
+        		});
+            });
+        </script>
+
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <ul>
+                    <li><a class="js-scrollTo" href="#main">Détails</a></li>
+                    <li><a class="js-scrollTo" href="#project">Projets</a></li>
+                    <li><a class="js-scrollTo" href="#skills">Skills</a></li>
+                </ul>
+            </div>
+        </header>
+        <main id="main">
+            <h2 class="text-center">Mon portfolio du pauvre</h2>
+            <div class="container">
+                <div class="row" id="details-profil">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <ul>
+                            <li>Boussad Sadadou</li>
+                            <li>Développeur Web Junior</li>
+                            <li>boussad.sadadou@gmail.com</li>
+                        </ul>
+                        <p>
+                            Formé à l'Access Code School de Besançon
+                        </p>
+                        <p>
+                            Après avoir vécu 14 ans sur la toile, j'ai souhaité passer de l’autre côté de l’écran ! J’ai donc commencer à tester en autodidacte le développement web, l'animation 3D et l'illustration. L'ACS m'a permis de confirmer ma voie et d'enrichir mes connaissances en développement web.
+                        </p>
+                        <p>
+                            Aujourd’hui, après huit mois de formation en centre je retourne dans mon garage pour continuer à me former tout en étant en recherche active d'emploi.
+                        <p>
+
+                        <div class="row" id="sociaux-liste">
+                            <ul id="social-liste">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d86676.10707098515!2d5.960939042547553!3d47.24341519141375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478d62faf0ee130b%3A0x409ce34b313ed30!2s25000+Besan%C3%A7on!5e0!3m2!1sfr!2sfr!4v1494623748375" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <hr/>
+                <h2 class="text-center" id="project">Projets</h2>
+
+                <div class="row" id="project-liste">
+                    <div class="project-template">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="thumbnail">
+                              <img src="data_logoproject" alt="...">
+                              <div class="caption">
+                                <h3>data_name</h3>
+                                <p>data_description</p>
+                                <p><a href="data_siteweb" target="_blank" class="btn btn-primary" role="button">Site</a> <a data-id="data_count" class="btn btn-default btn-screenshot" role="button" data-toggle="modal" data-target="#myModal">Screenshots</a></p>
+                                <p class="picto">data_list-techno</p>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+
+                <h2 class="text-center" id="skills">Skills</h2>
+                <div class="row" id="skills-liste">
+                    <div class="skills-template">
+                        <div class="col-xs-6 col-sm-3 col-md-3">
+                            <div class="thumbnail">
+                              <img src="data_urllogo" width="40px" alt="...">
+                              <div class="caption">
+                                <h6>data_name</h6>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Screenshot du projet</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                          <!-- Indicators -->
+                          <ol class="carousel-indicators">
+                          </ol>
+
+                          <!-- Wrapper for slides -->
+                          <div class="carousel-inner">
+                            <div class="item active">
+
+                            </div>
+                          </div>
+
+                          <!-- Left and right controls -->
+                          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                          <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
